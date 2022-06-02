@@ -11,7 +11,7 @@ class ApplicationController < Sinatra::Base
   get "/pokemons" do
     pokemons = Pokemon.all
     # pokemons.to_json(include:{moves: { include: [:type]}})
-    pokemons.to_json
+    pokemons.to_json(include: :type)
     # (include: :type)
   end
 
@@ -21,7 +21,7 @@ class ApplicationController < Sinatra::Base
   end
 
   post '/pokemons' do
-    Pokemon.create(pokemon_params).to_json
+    Pokemon.create(pokemon_params).to_json(include: :type)
     # (
     #   name: params[:name],
     #   hp: params[:hp],
@@ -62,7 +62,7 @@ class ApplicationController < Sinatra::Base
       # type_id: params[:type_id],
       # image: params[:image]
     )
-    pokemons.to_json
+    pokemons.to_json(include: :type)
   end
 
   get '/moves' do 
@@ -83,6 +83,22 @@ class ApplicationController < Sinatra::Base
       move_id: params[:move_id],
       pokemon_id: params[:id]
     )
+    pokemons.to_json
+  end
+
+  get '/types/most_often' do
+    pokemons = Type.all.sort_by {|type| type.pokemons.count}.last
+    pokemons.to_json
+  end
+
+  get '/moves/most_often' do
+    pokemons = Move.all.sort_by {|move| move.pokemons.count}.last
+    pokemons.to_json
+  end
+
+  get '/pokemon/most_often' do
+    images = Pokemon.all.pluck(:image)
+    pokemons = images.max_by {|img| images.count(img)}
     pokemons.to_json
   end
 end

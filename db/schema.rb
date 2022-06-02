@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 2022_05_31_034455) do
 
   create_table "types", force: :cascade do |t|
     t.string "element"
+    t.string "image"
   end
 
 end
