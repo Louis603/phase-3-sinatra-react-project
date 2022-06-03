@@ -1,6 +1,6 @@
 class MovesController < ApplicationController
     get '/moves' do 
-        moves = Move.all
+        moves = Move.all.order(:type_id)
         moves.to_json
     end
 
