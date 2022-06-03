@@ -13,3 +13,8 @@ use Rack::JSONBodyParser
 
 # Our application
 run ApplicationController
+
+use PokemonsController
+use TypesController
+use MovesController
+use PokemonMovesController
